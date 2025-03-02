@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,18 +14,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        $this->call([
+            RoleSeeder::class,           // If roles are in a separate seeder
+            BusinessTypeSeeder::class,   // Business types
+            PriceTypeSeeder::class,      // Price types
+        ]);
 
-        $roles = ['super_admin', 'customer', 'vendor', 'delivery_boy'];
-
-        $timestamp = now();
-
-        $data = array_map(fn($role) => [
-            'name' => $role,
-            'status' => 1,
-            'created_at' => $timestamp,
-            'updated_at' => $timestamp
-        ], $roles);
-
-        DB::table('roles')->insert($data);
     }
 }

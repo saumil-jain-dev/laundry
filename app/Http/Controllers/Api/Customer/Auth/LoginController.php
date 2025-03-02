@@ -38,7 +38,4 @@ class LoginController extends Controller
         }
     }
 
-    public function checkAccess(){
-        dd(1);
-    }
 }
