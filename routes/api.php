@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\Customer\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\Auth\RegisterController;
-use App\Http\Controllers\Api\Customer\Auth\RegisterController As VendorRegister;
+use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,12 +19,14 @@ Route::prefix('v1')->group(function () {
         Route::post('login',[LoginController::class, 'login']);
 
         Route::middleware('auth:sanctum')->group( function () {
-            Route::get('products', [LoginController::class,'checkAccess']);
+
         });
     });
 
     //Vendor Routes
     Route::prefix('vendor')->group(function(){
         Route::post('register', [VendorRegister::class, 'register']);
+        Route::get('business-type', [VendorRegister::class, 'getBusinessType']);
+        Route::get('price-type', [VendorRegister::class, 'getPriceType']);
     });
 });
