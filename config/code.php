@@ -1,0 +1,14 @@
+<?php
+
+return array(
+
+    'SUCCESS_CODE' => 200,
+    'RECORD_CREATED_CODE' => 201,
+    'VALIDATION_ERROR_CODE' => 422,
+    'UNAUTHORIZED_CODE' => 401,
+    'PERMISSION_CODE' => 403,
+    'NO_RECORD_CODE' => 404,
+    'FAILED_CODE' => 409,
+    'EXCEPTION_ERROR_CODE' => 500,
+
+);
