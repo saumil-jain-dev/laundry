@@ -24,7 +24,7 @@ return [
     'send_notification' => 'Notification send successfully',
 
     // Response Messages
-    'register_success' => 'You are registered successfully. OTP sent successfully!',
+    'register_success' => 'You are registered successfully.',
     'login_success' => 'You are logged In successfully.',
     'verify_mail_subject' => 'Verify Your Account - One-Time Password',
     'login_invalid' => 'Invalid Credential',
