@@ -8,6 +8,7 @@ use App\Http\Resources\Api\Auth\Vendor\LoginRegisterResource;
 use App\Http\Resources\Api\Vendor\BusinessTypeResource;
 use App\Http\Resources\Api\Vendor\CategoryResource;
 use App\Http\Resources\Api\Vendor\PriceTypeResource;
+use App\Http\Resources\Api\Vendor\ServiceResource;
 use App\Services\Api\Vendor\AuthService;
 use Illuminate\Http\Request;
 use Exception;
@@ -31,7 +32,7 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request) {
         try{
 
-            
+
             $vendor = $this->authService->register($request);
             return success(new LoginRegisterResource($vendor), trans('messages.register_success'), config('code.SUCCESS_CODE'));
 
@@ -50,6 +51,23 @@ class RegisterController extends Controller
                 return success(
                     pagination(BusinessTypeResource::class, $businessType),
                     trans('messages.list', ['attribute' => 'Business type']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function getServices(Request $request){
+
+        try{
+
+            $services = $this->authService->getServices($request);
+            if($services){
+                return success(
+                    pagination(ServiceResource::class, $services),
+                    trans('messages.list', ['attribute' => 'Services']),
                     config('code.SUCCESS_CODE')
                 );
             }

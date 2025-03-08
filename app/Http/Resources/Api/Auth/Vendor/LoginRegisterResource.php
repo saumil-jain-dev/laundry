@@ -21,11 +21,18 @@ class LoginRegisterResource extends JsonResource
             'email' => $this->email,
             'phone' => $this->phone,
             'profile_picture' => getImage($this->profile_picture), // Call helper function
-            'status' => $this->status,
+            'status' => $this->businessDetails->status,
             'role_id' => $this->role_id,
             'access_token' => $this->when($this->access_token, $this->access_token),
             'business_name' =>optional($this->businessDetails)->business_name,
+            'business_image' => getImage($this->businessDetails->business_image),
             'business_type' =>optional($this->businessDetails->businessType)->name,
+            'services'    => $this->businessDetails->services->map(function ($service) {
+                return [
+                    'id'   => $service->id,
+                    'name' => $service->name,
+                ];
+            }),
             'media' => collect(json_decode(optional($this->businessDetails)->media, true) ?: [])
             ->map(fn($file) => getImage($file))
             ->toArray(),

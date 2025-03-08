@@ -15,6 +15,7 @@ class BusinessDetail extends Model
         'user_id',
         'business_name',
         'business_type_id',
+        'services',
         'address_line_1',
         'address_line_2',
         'city',
@@ -24,6 +25,7 @@ class BusinessDetail extends Model
         'lattitude',
         'longitude',
         'about',
+        'business_image',
         'media',
         'store_timings',
         'pricing',
@@ -34,6 +36,11 @@ class BusinessDetail extends Model
     public function businessType()
     {
         return $this->belongsTo(BusinessType::class, 'business_type_id', 'id');
+    }
+
+    public function getServicesAttribute()
+    {
+        return Service::whereIn('id', explode(',', $this->attributes['services']))->get();
     }
 
 }
