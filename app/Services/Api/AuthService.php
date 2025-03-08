@@ -18,7 +18,7 @@ class AuthService {
 
     public function login($request) {
 
-        $userData = User::where('email',$request->email)->where('role_id',$request->role_id)->first();
+        $userData = User::where('email',$request->email)->where('role_id',$request->role_id)->where('status',1)->first();
         if($userData){
             if(Hash::check($request->password, $userData->password)){
                 Auth::login($userData);

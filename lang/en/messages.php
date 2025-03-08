@@ -30,6 +30,7 @@ return [
     'login_invalid' => 'Invalid Credential',
     'otp_sent' => 'OTP sent successfully. Check your mail and enter the code to proceed.',
     'logout_success' => 'You are logged out successfully.',
+    'login_block' => "Your account has been blocked",
     'delete_account_success' => 'Account deleted successfully.',
     'load_max_limit' => 'You have reached the maximum number of quotations allowed for this load.',
 

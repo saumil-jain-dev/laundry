@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
     //Vendor Routes
     Route::prefix('vendor')->group(function(){
         Route::get('business-type', [VendorRegister::class, 'getBusinessType']);
+        Route::get('services', [VendorRegister::class, 'getServices']);
         Route::get('price-type', [VendorRegister::class, 'getPriceType']);
         Route::get('category', [VendorRegister::class, 'getCategory']);
 

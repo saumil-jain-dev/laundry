@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('business_name');
             $table->unsignedInteger('business_type_id');
+            $table->string('services');
             $table->text('address_line_1')->nullable();
             $table->text('address_line_2')->nullable();
             $table->string('city')->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->string('lattitude')->nullable();
             $table->string('longitude')->nullable();
             $table->longText('about')->nullable();
+            $table->string('business_image');
             $table->json('media')->nullable();
             $table->json('store_timings')->nullable();
             $table->json('pricing')->nullable();
