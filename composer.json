@@ -31,7 +31,8 @@
         "files": [
             "app/Helpers/response.php",
             "app/Helpers/helpers.php",
-            "app/Helpers/pagination.php"
+            "app/Helpers/pagination.php",
+            "app/Helpers/fileupload.php"
         ],
         "psr-4": {
             "Tests\\": "tests/"

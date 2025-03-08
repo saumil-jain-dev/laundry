@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Customer\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\Auth\RegisterController;
 use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
+use App\Http\Controllers\Api\Vendor\Auth\Logincontroller As VendorLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,8 +26,11 @@ Route::prefix('v1')->group(function () {
 
     //Vendor Routes
     Route::prefix('vendor')->group(function(){
-        Route::post('register', [VendorRegister::class, 'register']);
         Route::get('business-type', [VendorRegister::class, 'getBusinessType']);
         Route::get('price-type', [VendorRegister::class, 'getPriceType']);
+        Route::get('category', [VendorRegister::class, 'getCategory']);
+
+        Route::post('register', [VendorRegister::class, 'register']);
+        Route::post('login',[VendorLogin::class, 'login']);
     });
 });

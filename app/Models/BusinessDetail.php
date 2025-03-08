@@ -12,6 +12,7 @@ class BusinessDetail extends Model
     Use SoftDeletes,HasFactory;
 
     protected $fillable = [
+        'user_id',
         'business_name',
         'business_type_id',
         'address_line_1',
@@ -29,4 +30,10 @@ class BusinessDetail extends Model
         'is_verified',
         'status'
     ];
+
+    public function businessType()
+    {
+        return $this->belongsTo(BusinessType::class, 'business_type_id', 'id');
+    }
+
 }
