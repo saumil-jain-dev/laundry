@@ -52,4 +52,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function businessDetails()
+    {
+        return $this->hasOne(BusinessDetail::class, 'user_id', 'id');
+    }
+
 }

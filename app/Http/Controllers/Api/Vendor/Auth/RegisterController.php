@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Vendor\RegisterRequest;
 use App\Http\Resources\Api\Auth\Vendor\LoginRegisterResource;
 use App\Http\Resources\Api\Vendor\BusinessTypeResource;
+use App\Http\Resources\Api\Vendor\CategoryResource;
 use App\Http\Resources\Api\Vendor\PriceTypeResource;
 use App\Services\Api\Vendor\AuthService;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request) {
         try{
 
+            
             $vendor = $this->authService->register($request);
             return success(new LoginRegisterResource($vendor), trans('messages.register_success'), config('code.SUCCESS_CODE'));
 
@@ -67,6 +69,21 @@ class RegisterController extends Controller
                     config('code.SUCCESS_CODE')
                 );
             }
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function getCategory(Request $request) {
+
+        try{
+
+            $categoryObj = $this->authService->getCategory($request);
+            return success(
+                pagination(CategoryResource::class, $categoryObj),
+                trans('messages.list', ['attribute' => 'Price type']),
+                config('code.SUCCESS_CODE')
+            );
         } catch (Exception $e) {
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }

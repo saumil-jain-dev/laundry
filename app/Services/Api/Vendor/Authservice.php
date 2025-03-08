@@ -2,8 +2,10 @@
 
 namespace App\Services\Api\Vendor;
 
-use App\Http\Resources\Api\Auth\VerificationResource;
+use App\Http\Resources\Api\Auth\Vendor\VerificationResource;
+use App\Models\BusinessDetail;
 use App\Models\BusinessType;
+use App\Models\Category;
 use App\Models\PriceType;
 use App\Models\User;
 use App\Models\UserDevice;
@@ -14,7 +16,41 @@ class AuthService {
 
     public function register($request){
 
-        $userStore = User::create($request->all());
+        // dD($request->all());
+        $userStore = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->role_id
+        ]);
+
+        $media = [];
+        if($request->hasFile('media')){
+            $media = uploadMultipleImages($request->file('media'), 'media/'.$userStore->id);
+
+        }
+
+        $businesDetails = BusinessDetail::create([
+            'user_id' => $userStore->id,
+            'business_name' => $request->business_name,
+            'business_type_id' => $request->business_type_id,
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2 ?? NULL,
+            'city' => $request->city,
+            'state' => $request->state,
+            'country' => $request->country,
+            'zipcode' => $request->zipcode,
+            'lattitude' => $request->lattitude,
+            'longitude' => $request->longitude,
+            'about' => $request->about,
+            'media' => json_encode($media),
+            'store_timings' => json_encode($request->store_timings),
+            'pricing' => $request->pricing ? json_encode($request->pricing) : NULL,
+            'is_verified' => 1,
+
+        ]);
         return $userStore;
     }
 
@@ -56,5 +92,12 @@ class AuthService {
         $perPage = $request->input('per_page', 10);
         $priceType = PriceType::where('status',1)->orderBy('id','DESC')->paginate($perPage)->withQueryString();
         return $priceType;
+    }
+
+    public function getCategory($request) {
+
+        $perPage = $request->input('per_page', 10);
+        $categories = Category::active()->whereNull('parent')->with('subcategories')->paginate($perPage)->withQueryString();
+        return $categories;
     }
 }
