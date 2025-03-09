@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,           // If roles are in a separate seeder
             BusinessTypeSeeder::class,   // Business types
             PriceTypeSeeder::class,      // Price types
-            CategorySeeder::class       //Category seeder
+            CategorySeeder::class,       //Category seeder
+            ServiceSeeder::class,
         ]);
 
     }

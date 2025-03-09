@@ -29,6 +29,9 @@ class LoginController extends Controller
         try {
             $user = $this->authService->login($request);
             if ($user) {
+                // if($user == 3) {
+                //     return fail([], trans('messages.not_found', ['attribute' => 'User Account']), config('code.NO_RECORD_CODE'));
+                // }
                 return success(new LoginRegisterResource($user), trans('messages.login_success'), config('code.SUCCESS_CODE'));
             } else {
                 return fail([], trans('messages.login_invalid'), config('code.EXCEPTION_ERROR_CODE'));

@@ -24,6 +24,7 @@ class LoginRegisterResource extends JsonResource
             'profile_picture' => getImage($this->profile_picture), // Call helper function
             'status' => $this->status,
             'role_id' => $this->role_id,
+            'address' => $this->addresses,
             'access_token' => $this->when($this->access_token, $this->access_token),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
