@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Customer\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\Auth\RegisterController;
+use App\Http\Controllers\Api\Customer\Auth\UserController;
 use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
 use App\Http\Controllers\Api\Vendor\Auth\Logincontroller As VendorLogin;
 use Illuminate\Http\Request;
@@ -19,8 +20,27 @@ Route::prefix('v1')->group(function () {
         Route::post('register', [RegisterController::class, 'register']);
         Route::post('login',[LoginController::class, 'login']);
 
-        Route::middleware('auth:sanctum')->group( function () {
+        Route::middleware('auth:sanctum')->group( function (): void {
+            Route::post('delete-account',[UserController::class, 'deleteAccount']);
+            Route::post('logout',[UserController::class, 'logout']);
+            //Profile Route
+            Route::prefix('pofile')->group(function(){
+                Route::get('view',[UserController::class, 'getProfile']);
+                Route::post('update',[UserController::class, 'updateProfile']);
+            });
 
+            //Address Route
+            Route::prefix('address')->group(function(){
+                Route::get('/',[UserController::class, 'getAddress']);
+                Route::post('add',[UserController::class, 'storeAddress']);
+                Route::post('edit',[UserController::class, 'editAddress']);
+                Route::post('update',[UserController::class, 'updateAddress']);
+                Route::post('mark-as-default',[UserController::class, 'updateAddressmarkAsDefault']);
+                Route::post('delete',[UserController::class, 'destroyAddress']);
+            });
+
+            //Change Password
+            Route::post('change-password',[UserController::class, 'changePassword']);
         });
     });
 
