@@ -4,6 +4,9 @@ namespace App\Services\Api;
 
 use App\Http\Resources\Api\Auth\LoginRegisterResource;
 use App\Http\Resources\Api\Auth\VerificationResource;
+use App\Models\Feedback;
+use App\Models\HelpCenter;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserDevice;
@@ -171,5 +174,25 @@ class AuthService {
         UserDevice::where('user_id',$user->id)->delete();
         User::find($user->id)->delete();
         return true;
+    }
+
+    public function storeHelpCenterMessage($request) {
+
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id ?? NULL;
+        $data['user_type'] = Role::where('id',Auth::user()->role_id)->first()->name;
+        $helpcenterData = HelpCenter::create($data);
+
+        return $helpcenterData;
+    }
+
+    public function storeFeedback($request) {
+
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id ?? NULL;
+        $data['user_type'] = Role::where('id',Auth::user()->role_id)->first()->name;
+        $feedbackData = Feedback::create($data);
+
+        return $feedbackData;
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Customer\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\Auth\RegisterController;
 use App\Http\Controllers\Api\Customer\Auth\UserController;
+use App\Http\Controllers\Api\Customer\Home\HomeController;
 use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
 use App\Http\Controllers\Api\Vendor\Auth\Logincontroller As VendorLogin;
 use Illuminate\Http\Request;
@@ -20,7 +21,19 @@ Route::prefix('v1')->group(function () {
         Route::post('register', [RegisterController::class, 'register']);
         Route::post('login',[LoginController::class, 'login']);
 
+        //Home Route
+        Route::prefix('recent-view')->group(function(){
+            Route::post('add',[HomeController::class, 'storeRecentView']);
+            Route::post('/',[HomeController::class, 'getRecentViewList']);
+        });
+        Route::get('service',[HomeController::class, 'getServiceList']);
+        Route::post('service-business-list',[HomeController::class, 'getServiceBusinessList']);
+        Route::post('business-details',[HomeController::class, 'getBusinessDetails']);
+
+
         Route::middleware('auth:sanctum')->group( function (): void {
+            Route::post('add-help-center-message',[UserController::class,'storeHelpCenterMessage']);
+            Route::post('add-feedback',[UserController::class,'storeFeedback']);
             Route::post('delete-account',[UserController::class, 'deleteAccount']);
             Route::post('logout',[UserController::class, 'logout']);
             //Profile Route

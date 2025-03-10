@@ -43,4 +43,11 @@ class BusinessDetail extends Model
         return Service::whereIn('id', explode(',', $this->attributes['services']))->get();
     }
 
+    public function averageRating()
+    {
+        return $this->hasOne(Ratting::class, 'business_id')
+            ->selectRaw('business_id, ROUND(AVG(ratting), 2) as avg_rating')
+            ->groupBy('business_id');
+    }
+
 }
