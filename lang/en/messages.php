@@ -29,6 +29,7 @@ return [
     'verify_mail_subject' => 'Verify Your Account - One-Time Password',
     'login_invalid' => 'Invalid Credential',
     'delete_account' => "Your account deleted successfully",
+    'recent_view_add' => "Recent view added sucessfully",
     'otp_sent' => 'OTP sent successfully. Check your mail and enter the code to proceed.',
     'logout_success' => 'You are logged out successfully.',
     'login_block' => "Your account has been blocked",

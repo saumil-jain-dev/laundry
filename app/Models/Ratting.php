@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RecentView extends Model
+class Ratting extends Model
 {
     //
     use HasFactory;
@@ -14,11 +14,6 @@ class RecentView extends Model
         'device_id',
         'user_id',
         'business_id',
-        'viewed_at'
+        'ratting'
     ];
-
-    public function business()
-    {
-        return $this->belongsTo(BusinessDetail::class);
-    }
 }

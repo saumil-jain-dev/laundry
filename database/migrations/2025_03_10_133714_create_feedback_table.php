@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recent_views', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->string('device_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('business_id');
-            $table->timestamp('viewed_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->unsignedBigInteger('user_id');
+            $table->string('user_type')->nullable()->comment('User,Business');
+            $table->longText('feedback');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recent_views');
+        Schema::dropIfExists('feedback');
     }
 };

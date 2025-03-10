@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\AddressDetailsRequest;
 use App\Http\Requests\Api\Customer\AddressRequest;
 use App\Http\Requests\Api\Customer\ChangePasswordRequest;
+use App\Http\Requests\Api\Customer\FeedbackRequest;
+use App\Http\Requests\Api\Customer\HelpCenterRequest;
 use App\Http\Requests\Api\Customer\UpdateAddressRequest;
 use App\Http\Requests\Api\Customer\UpdateProfileRequest;
 use App\Http\Resources\Api\Auth\LoginRegisterResource;
@@ -141,6 +143,28 @@ class UserController extends Controller
             $user = $this->authService->deleteAccount();
             return success([], trans('messages.delete_account'), config('code.SUCCESS_CODE'));
         } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function storeHelpCenterMessage(HelpCenterRequest $request) {
+
+        try {
+
+            $data = $this->authService->storeHelpCenterMessage($request);
+            return success($data,trans('messages.create',['attribute'=>'Help center messahe']));
+        }  catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function storeFeedback(FeedbackRequest $request) {
+
+        try {
+
+            $feedbackData = $this->authService->storeFeedback($request);
+            return success($feedbackData,trans('messages.create',['attribute'=>'Help center messahe']));
+        }  catch (Exception $e) {
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }
     }
