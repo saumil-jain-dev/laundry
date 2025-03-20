@@ -30,6 +30,8 @@ return [
     'login_invalid' => 'Invalid Credential',
     'delete_account' => "Your account deleted successfully",
     'recent_view_add' => "Recent view added sucessfully",
+    "bookmark_add" => "Bookmark added sucessfully",
+    "bookmark_remove" => "Bookmark removed sucessfully",
     'otp_sent' => 'OTP sent successfully. Check your mail and enter the code to proceed.',
     'logout_success' => 'You are logged out successfully.',
     'login_block' => "Your account has been blocked",

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\Customer\Home;
 
+use App\Models\BookMark;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,19 @@ class BusinessListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $userId = $request->user_id;
+        $deviceId = $request->device_id;
+        $businessId = $this->business_id;
+
+        $isBookmark = BookMark::where(function ($query) use ($userId, $deviceId, $businessId) {
+                if ($userId) {
+                    $query->where('user_id', $userId);
+                } else {
+                    $query->where('device_id', $deviceId);
+                }
+                $query->where('business_id', $businessId);
+            })
+            ->exists();
         // return parent::toArray($request);
         return [
             'id' => $this->id,
@@ -35,7 +49,8 @@ class BusinessListResource extends JsonResource
             'lattitude' => optional($this->business)->lattitude,
             'longitude' => optional($this->business)->longitude,
             'store_timings' => json_decode(optional($this->business)->store_timings),
-            'ratting' => $this->business->averageRating->avg_rating ?? 0,
+            'ratting' => $this->business->averageRating->avg_rating ?? "0.00",
+            'is_bookmark' => $isBookmark ? 1 : 0,
         ];
     }
 }

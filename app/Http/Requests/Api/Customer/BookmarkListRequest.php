@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
-class RecentViewRequest extends FormRequest
+class BookmarkListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,11 +35,6 @@ class RecentViewRequest extends FormRequest
                 'required_without:device_id', // Required if device_id is not provided
                 'numeric',
                 'exists:users,id'
-            ],
-            'business_id' => [
-                'required',
-                'numeric',
-                Rule::exists('business_details', 'id')
             ],
         ];
     }
