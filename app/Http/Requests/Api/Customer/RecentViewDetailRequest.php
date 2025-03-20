@@ -29,7 +29,6 @@ class RecentViewDetailRequest extends FormRequest
             'device_id' => [
                 'nullable',
                 'required_without:user_id', // Required if user_id is not provided
-                'string'
             ],
             'user_id' => [
                 'nullable',

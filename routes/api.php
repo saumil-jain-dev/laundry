@@ -22,49 +22,69 @@ Route::prefix('v1')->group(function () {
         Route::post('login',[LoginController::class, 'login']);
 
         //Home Route
-        Route::prefix('recent-view')->group(function(){
-            Route::post('add',[HomeController::class, 'storeRecentView']);
-            Route::post('/',[HomeController::class, 'getRecentViewList']);
-        });
-        Route::get('service',[HomeController::class, 'getServiceList']);
-        Route::post('service-business-list',[HomeController::class, 'getServiceBusinessList']);
-        Route::post('business-details',[HomeController::class, 'getBusinessDetails']);
+        Route::controller(HomeController::class)->group(function () {
+            // Recent View Routes
+            Route::prefix('recent-view')->group(function () {
+                Route::post('add', 'storeRecentView');
+                Route::post('/', 'getRecentViewList');
+            });
 
+            //Bookmark Routes
+            Route::prefix('bookmark')->group(function () {
+                Route::post('add', 'storeBookmark');
+                Route::post('/', 'getBookmarkList');
+                Route::post('delete', 'destroyBookmark');
+            });
+
+            // Service Routes
+            Route::get('service', 'getServiceList');
+            Route::post('service-business-list', 'getServiceBusinessList');
+            Route::post('business-details', 'getBusinessDetails');
+            Route::post('most-popular', 'getMostPopularBusinessList');
+        });
 
         Route::middleware('auth:sanctum')->group( function (): void {
-            Route::post('add-help-center-message',[UserController::class,'storeHelpCenterMessage']);
-            Route::post('add-feedback',[UserController::class,'storeFeedback']);
-            Route::post('delete-account',[UserController::class, 'deleteAccount']);
-            Route::post('logout',[UserController::class, 'logout']);
-            //Profile Route
-            Route::prefix('pofile')->group(function(){
-                Route::get('view',[UserController::class, 'getProfile']);
-                Route::post('update',[UserController::class, 'updateProfile']);
-            });
-
             //Address Route
-            Route::prefix('address')->group(function(){
-                Route::get('/',[UserController::class, 'getAddress']);
-                Route::post('add',[UserController::class, 'storeAddress']);
-                Route::post('edit',[UserController::class, 'editAddress']);
-                Route::post('update',[UserController::class, 'updateAddress']);
-                Route::post('mark-as-default',[UserController::class, 'updateAddressmarkAsDefault']);
-                Route::post('delete',[UserController::class, 'destroyAddress']);
+            Route::controller(UserController::class)->group(function () {
+                // Address Routes
+                Route::prefix('address')->group(function () {
+                    Route::get('/', 'getAddress');
+                    Route::post('add', 'storeAddress');
+                    Route::post('edit', 'editAddress');
+                    Route::post('update', 'updateAddress');
+                    Route::post('mark-as-default', 'updateAddressmarkAsDefault');
+                    Route::post('delete', 'destroyAddress');
+                });
+
+                //Profile Route
+                Route::prefix('profile')->group(function () {
+                    Route::get('view', 'getProfile');
+                    Route::post('update', 'updateProfile');
+                });
+
+                // Other User Actions
+                Route::post('add-help-center-message', 'storeHelpCenterMessage');
+                Route::post('add-feedback', 'storeFeedback');
+                Route::post('delete-account', 'deleteAccount');
+                Route::post('logout', 'logout');
+
+                //Change Password
+                Route::post('change-password','changePassword');
             });
 
-            //Change Password
-            Route::post('change-password',[UserController::class, 'changePassword']);
+
         });
     });
 
     //Vendor Routes
     Route::prefix('vendor')->group(function(){
-        Route::get('business-type', [VendorRegister::class, 'getBusinessType']);
-        Route::get('services', [VendorRegister::class, 'getServices']);
-        Route::get('price-type', [VendorRegister::class, 'getPriceType']);
-        Route::get('category', [VendorRegister::class, 'getCategory']);
-
-        Route::post('register', [VendorRegister::class, 'register']);
+        Route::controller(VendorRegister::class)->group(function () {
+            Route::get('business-type', 'getBusinessType');
+            Route::get('services', 'getServices');
+            Route::get('price-type', 'getPriceType');
+            Route::get('category', 'getCategory');
+            Route::post('register', 'register');
+        });
         Route::post('login',[VendorLogin::class, 'login']);
     });
 });

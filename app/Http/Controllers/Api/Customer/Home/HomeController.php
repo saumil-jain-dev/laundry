@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api\Customer\Home;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Customer\BookmarkListRequest;
+use App\Http\Requests\Api\Customer\BookmarkRequest;
 use App\Http\Requests\Api\Customer\BusinessDetailRequest;
+use App\Http\Requests\Api\Customer\MostPopularBusinessRequest;
 use App\Http\Requests\Api\Customer\RecentViewDetailRequest;
 use App\Http\Requests\Api\Customer\RecentViewRequest;
 use App\Http\Requests\Api\Customer\ServiceBusinessRequest;
@@ -95,4 +98,57 @@ class HomeController extends Controller
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }
     }
+
+    public function getMostPopularBusinessList(MostPopularBusinessRequest $request) {
+        try {
+
+            $businessData =  $this->homeService->getMostPopularBusinessList($request);
+            if($businessData){
+                return success(
+                    pagination(BusinessResource::class, $businessData),
+                    trans('messages.list', ['attribute' => 'Recent view']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function storeBookmark(BookmarkRequest $request){
+        try{
+            $reRecentView = $this->homeService->storeBookmark($request);
+            return success([], trans('messages.bookmark_add'), config('code.SUCCESS_CODE'));
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function getBookmarkList(BookmarkListRequest $request) {
+        try {
+
+            $businessData =  $this->homeService->getBookmarkList($request);
+            if($businessData){
+                return success(
+                    pagination(BusinessListResource::class, $businessData),
+                    trans('messages.list', ['attribute' => 'Bookmark']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function destroyBookmark(BookmarkRequest $request) {
+        try{
+            $reRecentView = $this->homeService->destroyBookmark($request);
+            return success([], trans('messages.bookmark_remove'), config('code.SUCCESS_CODE'));
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+
+
 }
