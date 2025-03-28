@@ -2,8 +2,11 @@
 
 namespace App\Services\Api;
 
+use App\Http\Resources\Api\Customer\Home\BusinessResource;
+use App\Http\Resources\Api\Customer\Home\ServiceListResource;
 use App\Models\BookMark;
 use App\Models\BusinessDetail;
+use App\Models\Offer;
 use App\Models\RecentView;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
@@ -111,7 +114,53 @@ class HomeService {
             return $query->where('device_id', $request->device_id);
         })
         ->where('business_id', $businessId)->delete();
+    }
 
+    public function getSearchBusinessList($request) {
+        $perPage = $request->input('per_page', 10);
+        $query = $request->input('query');
 
+        $serviceData = Service::when(!empty($query), function ($q) use ($query) {
+            return $q->where('name', 'LIKE', "%$query%");
+        })
+        ->where('status', 1)
+        ->orderBy('id', 'desc')
+        ->get();
+
+        $businessData =  BusinessDetail::where('business_name', 'LIKE', "%$query%")->orderBy('id', 'desc')
+        ->paginate($perPage)->withQueryString();
+        return [
+            'services' => ServiceListResource::collection($serviceData),
+            'businesses' => pagination(BusinessResource::class, $businessData)
+        ];
+    }
+
+    public function getOffersList($request) {
+        $perPage = $request->input('per_page', 10);
+        $offers = Offer::where('status',1)->orderBy('id','DESC')->paginate($perPage)->withQueryString();
+        return $offers;
+    }
+
+    public function getNearBymeList($request) {
+        $perPage = $request->input('per_page', 10);
+        $latitude = $request->input('lattitude');
+        $longitude = $request->input('longitude');
+        $radius = $request->input('radius', 10); // Default radius is 10 km
+
+        $businesses = BusinessDetail::selectRaw(
+            "*, (6371 * acos(cos(radians(?))
+            * cos(radians(lattitude))
+            * cos(radians(longitude) - radians(?))
+            + sin(radians(?))
+            * sin(radians(lattitude)))) AS distance",
+            [$latitude, $longitude, $latitude]
+        )
+        ->having('distance', '<=', $radius)
+        ->where('status', 1)->where('is_verified',1)
+        // Filter by radius
+        ->orderBy('distance', 'asc') // Sort by nearest first
+        ->paginate($perPage)->withQueryString();
+
+        return $businesses;
     }
 }

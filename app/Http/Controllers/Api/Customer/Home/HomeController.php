@@ -7,17 +7,21 @@ use App\Http\Requests\Api\Customer\BookmarkListRequest;
 use App\Http\Requests\Api\Customer\BookmarkRequest;
 use App\Http\Requests\Api\Customer\BusinessDetailRequest;
 use App\Http\Requests\Api\Customer\MostPopularBusinessRequest;
+use App\Http\Requests\Api\Customer\NearByMeRequest;
 use App\Http\Requests\Api\Customer\RecentViewDetailRequest;
 use App\Http\Requests\Api\Customer\RecentViewRequest;
+use App\Http\Requests\Api\Customer\SearchRequest;
 use App\Http\Requests\Api\Customer\ServiceBusinessRequest;
 use App\Http\Resources\Api\Customer\Home\BusinessDetailsResource;
 use App\Http\Resources\Api\Customer\Home\BusinessListResource;
 use App\Http\Resources\Api\Customer\Home\BusinessResource;
+use App\Http\Resources\Api\Customer\Home\OfferResource;
 use App\Http\Resources\Api\Customer\Home\ServiceListResource;
 use App\Models\BusinessDetail;
 use Illuminate\Http\Request;
 use App\Services\Api\HomeService;
 use Exception;
+use PhpParser\Builder\FunctionLike;
 
 class HomeController extends Controller
 {
@@ -149,6 +153,48 @@ class HomeController extends Controller
         }
     }
 
+    public function getSearchBusinessList(SearchRequest $request) {
+        try {
+            $searchResult = $this->homeService->getSearchBusinessList($request);
+            if ($searchResult) {
+                return success($searchResult, trans('messages.search_result'), config('code.SUCCESS_CODE'));
+            } else {
+                return fail([], trans('messages.not_found', ['attribute' => 'data   ']), config('code.NO_RECORD_CODE'));
+            }
+        } catch(Exception $e){
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
 
+    public function getOffersList(Request $request){
+        try {
 
+            $offersData =  $this->homeService->getOffersList($request);
+            if($offersData){
+                return success(
+                    pagination(OfferResource::class, $offersData),
+                    trans('messages.list', ['attribute' => 'Offers']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public Function getNearBymeList(NearByMeRequest $request){
+        try {
+            $nearBymeData =  $this->homeService->getNearBymeList($request);
+            if($nearBymeData){
+                return success(
+                    pagination(BusinessResource::class, $nearBymeData),
+                    trans('messages.list', ['attribute' => 'Near By Me']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+
+    }
 }
