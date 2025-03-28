@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             PriceTypeSeeder::class,      // Price types
             CategorySeeder::class,       //Category seeder
             ServiceSeeder::class,
+            OfferSeeder::class,
         ]);
 
     }

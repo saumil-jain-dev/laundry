@@ -41,6 +41,9 @@ Route::prefix('v1')->group(function () {
             Route::post('service-business-list', 'getServiceBusinessList');
             Route::post('business-details', 'getBusinessDetails');
             Route::post('most-popular', 'getMostPopularBusinessList');
+            Route::post('search','getSearchBusinessList');
+            Route::get('offers', 'getOffersList');
+            Route::post('near-by-me', 'getNearBymeList');
         });
 
         Route::middleware('auth:sanctum')->group( function (): void {
