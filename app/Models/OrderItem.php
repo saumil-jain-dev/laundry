@@ -12,7 +12,7 @@ class OrderItem extends Model
     use SoftDeletes, HasFactory;
     protected $fillable = [
         'order_id',
-        'busiess_id',
+        'business_id',
         'service_id',
         'category',
         'item_name',

@@ -13,8 +13,8 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'business_id',
-        'total_price',
-        'gross_anount',
+        'total_amount',
+        'gross_amount',
         'discount_amount',
         'diccount_id',
         'coupon_code',
