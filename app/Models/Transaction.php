@@ -20,4 +20,9 @@ class Transaction extends Model
         'transaction_complete_date',
         'amount'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

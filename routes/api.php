@@ -80,7 +80,10 @@ Route::prefix('v1')->group(function () {
             Route::controller(OrderController::class)->group(function () {
                 Route::prefix('order')->group(function () {
                     Route::post('create', 'orderCreate');
+                    Route::post('list', 'getOrderList');
                 });
+                //Payment history
+                Route::post('payment-history', 'getPaymentHistory');
             });
 
 
