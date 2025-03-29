@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Customer\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\OrderRequest;
+use App\Http\Resources\Api\Customer\Order\OrderListResource;
+use App\Http\Resources\Api\Customer\Order\PaymentHistoryResource;
 use Illuminate\Http\Request;
 use Exception;
 use App\Services\Api\OrderService;
@@ -31,6 +33,36 @@ class OrderController extends Controller
             );
         } catch (Exception $e) {
             DB::rollBack();
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function getOrderList(Request $request){
+        try {
+            $orderData = $this->orderService->getOrderList($request);
+            if($orderData){
+                return success(
+                    pagination(OrderListResource::class, $orderData),
+                    trans('messages.list', ['attribute' => 'Order']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
+        } catch(Exception $e){
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function getPaymentHistory(Request $request){
+        try {
+            $paymentHistory = $this->orderService->getPaymentHistory($request);
+            if($paymentHistory){
+                return success(
+                    pagination(PaymentHistoryResource::class, $paymentHistory),
+                    trans('messages.list', ['attribute' => 'Payment History']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
+        } catch(Exception $e){
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }
     }

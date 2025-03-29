@@ -19,6 +19,7 @@ class OrderService {
     public function orderCreate($request) {
         $data = $request->all();
         $order = Order::create([
+            'order_number' => Order::generateUniqueOrderNumber(),
             'user_id' => $data['user_id'],
             'business_id' => $data['business_id'],
             'total_amount' => $data['total_amount'],
@@ -55,6 +56,25 @@ class OrderService {
             'transaction_response' => $data['transaction_response'] ? json_encode($data['transaction_response']) : NULL,
             'amount' => $data['total_amount']
         ]);
+    }
+
+    public function getOrderList($request){
+        $perPage = $request->input('per_page', 10);
+        $orders = Order::with('orderItems')
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc') // Order by latest
+            ->paginate($perPage)->withQueryString();
+        return $orders;
+    }
+
+    public function getPaymentHistory($request){
+        $perPage = $request->input('per_page', 10);
+        $transactions = Transaction::with(['order'])->where('user_id', Auth::user()->id)
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage)->withQueryString();
+
+        return $transactions;
+
     }
 
 }
