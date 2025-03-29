@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('business_id');
-            $table->decimal('total_price',7,2);
-            $table->decimal('gross_anount',7,2)->nullable();
+            $table->decimal('total_amount',7,2);
+            $table->decimal('gross_amount',7,2)->nullable();
             $table->decimal('discount_amount',7,2)->nullable();
             $table->unsignedBigInteger('diccount_id')->nullable();
             $table->string('coupon_code')->nullable();

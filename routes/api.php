@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Customer\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\Auth\RegisterController;
 use App\Http\Controllers\Api\Customer\Auth\UserController;
 use App\Http\Controllers\Api\Customer\Home\HomeController;
+use App\Http\Controllers\Api\Customer\Order\OrderController;
 use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
 use App\Http\Controllers\Api\Vendor\Auth\Logincontroller As VendorLogin;
 use Illuminate\Http\Request;
@@ -73,6 +74,13 @@ Route::prefix('v1')->group(function () {
 
                 //Change Password
                 Route::post('change-password','changePassword');
+            });
+
+            //Order Route
+            Route::controller(OrderController::class)->group(function () {
+                Route::prefix('order')->group(function () {
+                    Route::post('create', 'orderCreate');
+                });
             });
 
 
