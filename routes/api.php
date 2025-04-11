@@ -81,6 +81,7 @@ Route::prefix('v1')->group(function () {
                 Route::prefix('order')->group(function () {
                     Route::post('create', 'orderCreate');
                     Route::post('list', 'getOrderList');
+                    Route::post('details', 'getOrdeDetails');
                 });
                 //Payment history
                 Route::post('payment-history', 'getPaymentHistory');
