@@ -9,7 +9,7 @@ use App\Http\Resources\Api\Vendor\BusinessTypeResource;
 use App\Http\Resources\Api\Vendor\CategoryResource;
 use App\Http\Resources\Api\Vendor\PriceTypeResource;
 use App\Http\Resources\Api\Vendor\ServiceResource;
-use App\Services\Api\Vendor\AuthService;
+use App\Services\Api\Vendor\Authservice;
 use Illuminate\Http\Request;
 use Exception;
 
