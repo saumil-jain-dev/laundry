@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\Customer\Order;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Customer\OrderDetailsRequest;
 use App\Http\Requests\Api\Customer\OrderRequest;
 use App\Http\Resources\Api\Customer\Order\OrderListResource;
 use App\Http\Resources\Api\Customer\Order\PaymentHistoryResource;
+use App\Http\Resources\Api\Custpomer\Order\OrderDetailsResource;
 use Illuminate\Http\Request;
 use Exception;
 use App\Services\Api\OrderService;
@@ -66,4 +68,22 @@ class OrderController extends Controller
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }
     }
+
+    public function getOrdeDetails(OrderDetailsRequest $request){
+        try{
+            $orderDetails = $this->orderService->getOrdeDetails($request);
+            if($orderDetails){
+                return success(
+                    new OrderDetailsResource($orderDetails),
+                    trans('messages.view', ['attribute' => 'Order details']),
+                    config('code.SUCCESS_CODE')
+                );
+            }else{
+                return fail([], trans('messages.no_record', ['attribute' => 'Order']), config('code.NO_RECORD_CODE'));
+            }
+        } catch(Exception $e){
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
 }

@@ -77,4 +77,13 @@ class OrderService {
 
     }
 
+    public function getOrdeDetails($request) {
+        $orderId = $request->order_id;
+        $orderDetails = Order::with(['orderItems', 'business'])
+        ->where('id', $orderId)
+        ->where('user_id', Auth::user()->id)
+        ->firstOrFail();
+
+        return $orderDetails;
+    }
 }
