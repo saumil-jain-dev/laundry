@@ -19,4 +19,8 @@ class Notification extends Model
         'type',
         'status'
     ];
+    public function receivers()
+    {
+        return $this->hasMany(NotificationReceiver::class);
+    }
 }

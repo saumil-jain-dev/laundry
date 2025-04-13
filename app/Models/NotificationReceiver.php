@@ -17,4 +17,9 @@ class NotificationReceiver extends Model
         'receiver_id',
         'status'
     ];
+
+    public function notification()
+    {
+        return $this->belongsTo(Notification::class);
+    }
 }

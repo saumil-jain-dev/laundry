@@ -4,9 +4,11 @@ use App\Http\Controllers\Api\Customer\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\Auth\RegisterController;
 use App\Http\Controllers\Api\Customer\Auth\UserController;
 use App\Http\Controllers\Api\Customer\Home\HomeController;
+use App\Http\Controllers\Api\Customer\Notifications\NotificationsController;
 use App\Http\Controllers\Api\Customer\Order\OrderController;
 use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
 use App\Http\Controllers\Api\Vendor\Auth\Logincontroller As VendorLogin;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -87,6 +89,14 @@ Route::prefix('v1')->group(function () {
                 Route::post('payment-history', 'getPaymentHistory');
             });
 
+            //Notification Route
+            Route::controller(NotificationsController::class)->group(function () {
+                Route::prefix('notification')->group(function () {
+                    Route::get('list','getNotificationList');
+                    Route::post('mark-read', 'markReadNotification');
+                    Route::post('delete', 'deleteNotification');
+                });
+            });
 
         });
     });
