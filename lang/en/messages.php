@@ -38,6 +38,8 @@ return [
     'login_block' => "Your account has been blocked",
     'delete_account_success' => 'Account deleted successfully.',
     'load_max_limit' => 'You have reached the maximum number of quotations allowed for this load.',
+    'mark_read' => 'Notification marked as read successfully.',
+    
 
     'kyc_verify_subject' => 'Congratulations! Your KYC is Complete with Sarthitrans Logistics',
     'kyc_reject_subject' => 'Your KYC is Rejected with Sarthitrans Logistics',
