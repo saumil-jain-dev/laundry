@@ -49,5 +49,9 @@ class BusinessDetail extends Model
             ->selectRaw('business_id, ROUND(AVG(ratting), 2) as avg_rating')
             ->groupBy('business_id');
     }
+    public function ratings()
+    {
+        return $this->hasMany(Ratting::class, 'business_id');
+    }
 
 }
