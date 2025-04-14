@@ -43,7 +43,8 @@ class BusinessDetailsResource extends JsonResource
             'pricing' => !empty($this->pricing) ? json_decode($this->pricing) : null,
             'status' => $this->status,
             'is_verified' => $this->is_verified,
-            'ratting' => $this->business->averageRating->avg_rating ?? 0,
+            'ratting' => $this->averageRating->avg_rating ?? 0,
+            'total_rating_count' => $this->ratings()->count(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 
