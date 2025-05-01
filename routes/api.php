@@ -54,7 +54,7 @@ Route::prefix('v1')->group(function () {
             Route::controller(UserController::class)->group(function () {
                 // Address Routes
                 Route::prefix('address')->group(function () {
-                    Route::get('/', 'getAddress');
+                    Route::post('/', 'getAddress');
                     Route::post('add', 'storeAddress');
                     Route::post('edit', 'editAddress');
                     Route::post('update', 'updateAddress');
@@ -92,7 +92,7 @@ Route::prefix('v1')->group(function () {
             //Notification Route
             Route::controller(NotificationsController::class)->group(function () {
                 Route::prefix('notification')->group(function () {
-                    Route::get('list','getNotificationList');
+                    Route::post('list','getNotificationList');
                     Route::post('mark-read', 'markReadNotification');
                     Route::post('delete', 'deleteNotification');
                 });
