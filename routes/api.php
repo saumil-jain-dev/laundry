@@ -104,10 +104,10 @@ Route::prefix('v1')->group(function () {
     //Vendor Routes
     Route::prefix('vendor')->group(function(){
         Route::controller(VendorRegister::class)->group(function () {
-            Route::get('business-type', 'getBusinessType');
-            Route::get('services', 'getServices');
-            Route::get('price-type', 'getPriceType');
-            Route::get('category', 'getCategory');
+            Route::post('business-type', 'getBusinessType');
+            Route::post('services', 'getServices');
+            Route::post('price-type', 'getPriceType');
+            Route::post('category', 'getCategory');
             Route::post('register', 'register');
         });
         Route::post('login',[VendorLogin::class, 'login']);
