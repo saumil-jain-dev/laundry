@@ -45,7 +45,7 @@ Route::prefix('v1')->group(function () {
             Route::post('business-details', 'getBusinessDetails');
             Route::post('most-popular', 'getMostPopularBusinessList');
             Route::post('search','getSearchBusinessList');
-            Route::get('offers', 'getOffersList');
+            Route::post('offers', 'getOffersList');
             Route::post('near-by-me', 'getNearBymeList');
         });
 
