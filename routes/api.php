@@ -40,7 +40,7 @@ Route::prefix('v1')->group(function () {
             });
 
             // Service Routes
-            Route::get('service', 'getServiceList');
+            Route::post('service', 'getServiceList');
             Route::post('service-business-list', 'getServiceBusinessList');
             Route::post('business-details', 'getBusinessDetails');
             Route::post('most-popular', 'getMostPopularBusinessList');

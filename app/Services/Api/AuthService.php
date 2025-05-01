@@ -129,7 +129,8 @@ class AuthService {
     public function addressDetails($request) {
 
         $userId = Auth::user()->id;
-        $addressData = UserAddress::where('id',$request->address_id)->where('user_id',$userId);
+        $addressData = UserAddress::where('id',$request->address_id)->where('user_id',$userId)->first();
+        if($addressData);
         return $addressData;
     }
 
