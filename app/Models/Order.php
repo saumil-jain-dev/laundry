@@ -56,4 +56,14 @@ class Order extends Model
     {
         return $this->belongsTo(BusinessDetail::class, 'business_id');
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function transaction()
+{
+    return $this->hasOne(Transaction::class, 'order_id');
+}
 }

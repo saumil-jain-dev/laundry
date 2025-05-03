@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\Customer\Notifications\NotificationsController;
 use App\Http\Controllers\Api\Customer\Order\OrderController;
 use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
 use App\Http\Controllers\Api\Vendor\Auth\Logincontroller As VendorLogin;
+use App\Http\Controllers\Api\Vendor\Order\OrderController as OrderOrderController;
+use App\Http\Controllers\Api\Vendor\Reminder\ReminderController;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -111,5 +113,35 @@ Route::prefix('v1')->group(function () {
             Route::post('register', 'register');
         });
         Route::post('login',[VendorLogin::class, 'login']);
+
+        Route::middleware('auth:sanctum')->group( function (): void {
+
+            //Order Route
+            Route::controller(OrderOrderController::class)->group(function () {
+                Route::prefix('order')->group(function () {
+                    Route::post('list', 'getOrderList');
+                    Route::post('details', 'getOrdeDetails');
+                    Route::post('action', 'updateOrderStatus');
+                });
+
+                //Payment history
+                Route::post('payment-history', 'getPaymentHistory');
+
+
+            });
+
+            //Reminder Route
+            Route::controller(ReminderController::class)->group(function () {
+                Route::prefix('reminder')->group(function () {
+                    Route::post('list', 'getReminderList');
+                    Route::post('create', 'storeReminder');
+                    Route::post('change-status', 'updateReminderStatus');
+                    Route::post('delete', 'destroyReminder');
+
+                });
+            });
+
+
+        });
     });
 });
