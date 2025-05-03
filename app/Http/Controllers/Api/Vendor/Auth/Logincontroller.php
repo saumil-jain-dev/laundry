@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Vendor\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Vendor\LoginRequest;
 use App\Http\Resources\Api\Auth\Vendor\LoginRegisterResource;
-use App\Services\Api\Vendor\AuthService;
+use App\Services\Api\Vendor\Authservice;
 use Exception;
 use Illuminate\Http\Request;
 

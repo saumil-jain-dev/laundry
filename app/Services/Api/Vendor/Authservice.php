@@ -3,6 +3,7 @@
 namespace App\Services\Api\Vendor;
 
 use App\Http\Resources\Api\Auth\Vendor\VerificationResource;
+use App\Http\Resources\Api\Vendor\Auth\LoginRegisterResource;
 use App\Models\BusinessDetail;
 use App\Models\BusinessType;
 use App\Models\Category;
@@ -135,5 +136,51 @@ class AuthService {
         DB::table('personal_access_tokens')
         ->where('id', '!=', $currentTokenId)
         ->delete();
+    }
+
+    public function getProfile(){
+        $user = Auth::user();
+        return new LoginRegisterResource($user);
+    }
+
+    Public function updateProfile($request,$id) {
+
+        $user = User::find($id);
+        $data = $request->all();
+        $profile_picture = $user->profile_picture;
+        if($request->hasFile('profile_picture')){
+            $profile_picture = uploadImage($request->file('profile_picture'),'profile_picture/'.$user->id);
+        }
+        $data['profile_picture'] = $profile_picture;
+
+        $updateUser = $user->update($data);
+
+        return $this->userFind($id);
+    }
+
+    public function userFind($id)
+    {
+        return User::find($id);
+    }
+
+    public function logout(){
+
+        $user = Auth::user();
+        DB::table('personal_access_tokens')
+        ->where('tokenable_id', $user->id)
+        ->delete();
+        UserDevice::where('user_id',$user->id)->delete();
+
+        return true;
+    }
+
+    public function deleteAccount(){
+        $user = Auth::user();
+        DB::table('personal_access_tokens')
+        ->where('tokenable_id', $user->id)
+        ->delete();
+        UserDevice::where('user_id',$user->id)->delete();
+        User::find($user->id)->delete();
+        return true;
     }
 }
