@@ -183,4 +183,13 @@ class AuthService {
         User::find($user->id)->delete();
         return true;
     }
+
+    public function changePassword($request) {
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $updatePassword = $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return $this->userFind($user->id);
+    }
 }

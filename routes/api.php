@@ -153,6 +153,18 @@ Route::prefix('v1')->group(function () {
                 //Other Vendor Action
                 Route::post('delete-account', 'deleteAccount');
                 Route::post('logout', 'logout');
+
+                //Change Password
+                Route::post('change-password','changePassword');
+            });
+
+            //Notification Route
+            Route::controller(\App\Http\Controllers\Api\Vendor\Notifications\NotificationsController::class)->group(function () {
+                Route::prefix('notification')->group(function () {
+                    Route::post('list','getNotificationList');
+                    Route::post('mark-read', 'markReadNotification');
+                    Route::post('delete', 'deleteNotification');
+                });
             });
         });
     });
