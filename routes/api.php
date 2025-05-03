@@ -155,6 +155,8 @@ Route::prefix('v1')->group(function () {
                 //Other Vendor Action
                 Route::post('delete-account', 'deleteAccount');
                 Route::post('logout', 'logout');
+                Route::post('add-help-center-message', 'storeHelpCenterMessage');
+                Route::post('add-feedback', 'storeFeedback');
 
                 //Change Password
                 Route::post('change-password','changePassword');
