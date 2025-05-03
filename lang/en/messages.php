@@ -22,6 +22,7 @@ return [
     "USER_OFFLINE" => "User is offline.",
     'ASSIGN_DRIVER' => "Load Assigned successfully.",
     'send_notification' => 'Notification send successfully',
+    'forgot_password' => 'We have sent the reset password link into your register email',
 
     // Response Messages
     'register_success' => 'You are registered successfully.',
@@ -39,7 +40,7 @@ return [
     'delete_account_success' => 'Account deleted successfully.',
     'load_max_limit' => 'You have reached the maximum number of quotations allowed for this load.',
     'mark_read' => 'Notification marked as read successfully.',
-    
+
 
     'kyc_verify_subject' => 'Congratulations! Your KYC is Complete with Sarthitrans Logistics',
     'kyc_reject_subject' => 'Your KYC is Rejected with Sarthitrans Logistics',
