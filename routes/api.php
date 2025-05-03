@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Customer\Notifications\NotificationsController;
 use App\Http\Controllers\Api\Customer\Order\OrderController;
 use App\Http\Controllers\Api\Vendor\Auth\RegisterController As VendorRegister;
 use App\Http\Controllers\Api\Vendor\Auth\Logincontroller As VendorLogin;
+use App\Http\Controllers\Api\Vendor\Auth\VendorController;
 use App\Http\Controllers\Api\Vendor\Order\OrderController as OrderOrderController;
 use App\Http\Controllers\Api\Vendor\Reminder\ReminderController;
 use App\Models\Notification;
@@ -141,7 +142,18 @@ Route::prefix('v1')->group(function () {
                 });
             });
 
+            //Auth Route
+            Route::controller(VendorController::class)->group(function () {
+                //Profile Route
+                Route::prefix('profile')->group(function () {
+                    Route::get('view', 'getProfile');
+                    Route::post('update', 'updateProfile');
+                });
 
+                //Other Vendor Action
+                Route::post('delete-account', 'deleteAccount');
+                Route::post('logout', 'logout');
+            });
         });
     });
 });
