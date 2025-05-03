@@ -17,7 +17,7 @@ class BusinessResource extends JsonResource
     {
         $userId = $request->user_id;
         $deviceId = $request->device_id;
-        $businessId = $this->business_id;
+        $businessId = $this->id;
 
         $isBookmark = BookMark::where(function ($query) use ($userId, $deviceId, $businessId) {
                 if ($userId) {

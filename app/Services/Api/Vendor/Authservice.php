@@ -7,8 +7,10 @@ use App\Http\Resources\Api\Vendor\Auth\LoginRegisterResource;
 use App\Models\BusinessDetail;
 use App\Models\BusinessType;
 use App\Models\Category;
+use App\Models\HelpCenter;
 use App\Models\NotificationReceiver;
 use App\Models\PriceType;
+use App\Models\Role;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\UserDevice;
@@ -222,5 +224,15 @@ class AuthService {
         ->update(['status' => 2]);
 
         return $deleted;
+    }
+
+    public function storeHelpCenterMessage($request) {
+
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id ?? NULL;
+        $data['user_type'] = Role::where('id',Auth::user()->role_id)->first()->name;
+        $helpcenterData = HelpCenter::create($data);
+
+        return $helpcenterData;
     }
 }

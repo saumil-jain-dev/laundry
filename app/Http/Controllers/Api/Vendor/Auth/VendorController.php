@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Vendor\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Vendor\ChangePasswordRequest;
+use App\Http\Requests\Api\Vendor\HelpCenterRequest;
 use App\Http\Requests\Api\Vendor\UpdateProfileRequest;
 use App\Http\Resources\Api\Vendor\Auth\LoginRegisterResource;
 use Illuminate\Http\Request;
@@ -69,6 +70,17 @@ class VendorController extends Controller
             $changePassword = $this->authService->changePassword($request);
             return success(new LoginRegisterResource($changePassword), trans('messages.update',['attribute'=>'Password']), config('code.SUCCESS_CODE'));
         }catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function storeHelpCenterMessage(HelpCenterRequest $request) {
+
+        try {
+
+            $data = $this->authService->storeHelpCenterMessage($request);
+            return success($data,trans('messages.create',['attribute'=>'Help center messahe']));
+        }  catch (Exception $e) {
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }
     }
