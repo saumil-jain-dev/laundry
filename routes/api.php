@@ -27,7 +27,7 @@ Route::prefix('v1')->group(function () {
         Route::post('register', [RegisterController::class, 'register']);
         Route::post('login',[LoginController::class, 'login']);
         Route::post('forgot-password',[LoginController::class, 'forgotPassword']);
-        
+
         //Home Route
         Route::controller(HomeController::class)->group(function () {
             // Recent View Routes
@@ -115,6 +115,7 @@ Route::prefix('v1')->group(function () {
             Route::post('register', 'register');
         });
         Route::post('login',[VendorLogin::class, 'login']);
+        Route::post('forgot-password',[VendorLogin::class, 'forgotPassword']);
 
         Route::middleware('auth:sanctum')->group( function (): void {
 

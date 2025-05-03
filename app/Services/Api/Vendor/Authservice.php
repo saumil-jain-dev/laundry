@@ -7,6 +7,7 @@ use App\Http\Resources\Api\Vendor\Auth\LoginRegisterResource;
 use App\Models\BusinessDetail;
 use App\Models\BusinessType;
 use App\Models\Category;
+use App\Models\NotificationReceiver;
 use App\Models\PriceType;
 use App\Models\Service;
 use App\Models\User;
@@ -191,5 +192,35 @@ class AuthService {
         $user->save();
 
         return $this->userFind($user->id);
+    }
+
+    public function getNotificationList($request) {
+
+        $perPage = $request->input('per_page', 10);
+        $notificationList = NotificationReceiver::with('notification')
+        ->where('receiver_id', Auth::user()->id)
+        ->where('status','!=',2)
+        ->orderBy('id', 'desc')
+        ->paginate($perPage)->withQueryString();
+        return $notificationList;
+    }
+
+    public function markReadNotification($request){
+
+        $ids = explode(',', $request->input('id'));
+        $updated = NotificationReceiver::where('receiver_id', Auth::id())
+        ->whereIn('notification_id', $ids)
+        ->update(['status' => 1]);
+
+        return $updated;
+    }
+
+    public function deleteNotification($request) {
+        $ids = explode(',', $request->input('id'));
+        $deleted =NotificationReceiver::where('receiver_id', Auth::id())
+        ->whereIn('notification_id', $ids)
+        ->update(['status' => 2]);
+
+        return $deleted;
     }
 }
