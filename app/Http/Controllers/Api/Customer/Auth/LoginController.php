@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Customer\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\LoginRequest;
 use App\Http\Resources\Api\Auth\LoginRegisterResource;
+use App\Models\User;
 use App\Services\Api\AuthService;
 use Exception;
 use Illuminate\Http\Request;
@@ -36,6 +37,25 @@ class LoginController extends Controller
             } else {
                 return fail([], trans('messages.login_invalid'), config('code.EXCEPTION_ERROR_CODE'));
             }
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function forgotPassword(Request $request) {
+        try {
+            $userData = User::where('email', $request->email)->where('role_id',2)->first();
+            if ($userData) {
+                return success(
+                    $request->all(),
+                    trans('messages.forgot_password'),
+                    config('code.SUCCESS_CODE')
+                );
+            } else{
+                return fail([], trans('messages.not_found', ['attribute' => 'User']), config('code.NO_RECORD_CODE'));
+            }
+            // $user = $this->authService->forgotPassword($request);
+
         } catch (Exception $e) {
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }
