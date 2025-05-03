@@ -28,7 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger('canceled_by')->nullable();
             $table->string('cancel_remark')->nullable();
             $table->text('cancel_reason')->nullable();
-            $table->enum('status', ['pending', 'accepted', 'pickup', 'ready for dispatch', 'delivered', 'canceled'])
+            $table->enum('status', ['pending', 'accepted', 'rejected','pickup', 'ready_for_dispatch', 'delivered', 'canceled'])
             ->default('pending');
             $table->timestamps();
             $table->softDeletes();

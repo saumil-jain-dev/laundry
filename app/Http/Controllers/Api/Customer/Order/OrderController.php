@@ -79,7 +79,7 @@ class OrderController extends Controller
                     config('code.SUCCESS_CODE')
                 );
             }else{
-                return fail([], trans('messages.no_record', ['attribute' => 'Order']), config('code.NO_RECORD_CODE'));
+                return fail([], trans('messages.not_found', ['attribute' => 'Order']), config('code.NO_RECORD_CODE'));
             }
         } catch(Exception $e){
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
