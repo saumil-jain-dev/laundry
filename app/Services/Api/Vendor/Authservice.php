@@ -7,6 +7,7 @@ use App\Http\Resources\Api\Vendor\Auth\LoginRegisterResource;
 use App\Models\BusinessDetail;
 use App\Models\BusinessType;
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\HelpCenter;
 use App\Models\NotificationReceiver;
 use App\Models\PriceType;
@@ -234,5 +235,68 @@ class AuthService {
         $helpcenterData = HelpCenter::create($data);
 
         return $helpcenterData;
+    }
+
+    public function storeFeedback($request) {
+
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id ?? NULL;
+        $data['user_type'] = Role::where('id',Auth::user()->role_id)->first()->name;
+        $feedbackData = Feedback::create($data);
+
+        return $feedbackData;
+    }
+
+    public function updateStoreTiming($request){
+
+        $businessDetails = BusinessDetail::where('user_id',Auth::user()->id)->first();
+        $data = $request->all();
+        $data['store_timings'] = json_encode($request->store_timings);
+        $businessDetails->update($data);
+        $businessDetails = BusinessDetail::where('user_id',Auth::user()->id)->first();
+        return $businessDetails;
+
+    }
+
+    public function updatePricing($request){
+        $businessDetails = BusinessDetail::where('user_id',Auth::user()->id)->first();
+        $data = $request->all();
+        $data['pricing'] = json_encode($request->pricing);
+        $businessDetails->update($data);
+        $businessDetails = BusinessDetail::where('user_id',Auth::user()->id)->first();
+        return $businessDetails;
+    }
+
+    public function updateBusinessDetails($request) {
+        $businessDetails = BusinessDetail::where('user_id',Auth::user()->id)->first();
+        $data = $request->all();
+        $media = $businessDetails->media;
+        $media = json_decode($media);
+        if($request->hasFile('media')){
+            $media = [];
+            $media = uploadMultipleImages($request->file('media'), 'media/'.Auth::user()->id);
+
+        }
+        $business_image = $businessDetails->business_image;
+        if($request->hasFile('business_image')){
+            $business_image = uploadImage($request->file('business_image'),'business_image/'.Auth::user()->id);
+        }
+        $businessDetails->update(['business_name' => $request->business_name,
+            'business_type_id' => $request->business_type_id,
+            'services' => implode(',',$request->services),
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2 ?? NULL,
+            'city' => $request->city,
+            'state' => $request->state,
+            'country' => $request->country,
+            'zipcode' => $request->zipcode,
+            'lattitude' => $request->lattitude,
+            'longitude' => $request->longitude,
+            'about' => $request->about,
+            'business_image' => $business_image,
+            'media' => json_encode($media),
+        ]);
+        $businessDetails = BusinessDetail::where('user_id',Auth::user()->id)->first();
+        return $businessDetails;
     }
 }
