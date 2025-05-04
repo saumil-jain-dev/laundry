@@ -152,7 +152,7 @@ class UserController extends Controller
         try {
 
             $data = $this->authService->storeHelpCenterMessage($request);
-            return success($data,trans('messages.create',['attribute'=>'Help center messahe']));
+            return success($data,trans('messages.create',['attribute'=>'Help center message']));
         }  catch (Exception $e) {
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }

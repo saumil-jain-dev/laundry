@@ -153,6 +153,10 @@ Route::prefix('v1')->group(function () {
                 });
 
                 //Other Vendor Action
+                Route::post('vendor-business-details','getVendorBusinessDetails');
+                Route::post('update-timing','updateStoreTiming');
+                Route::post('update-business-details','updateBusinessDetails');
+                Route::post('update-pricing','updatePricing');
                 Route::post('delete-account', 'deleteAccount');
                 Route::post('logout', 'logout');
                 Route::post('add-help-center-message', 'storeHelpCenterMessage');
