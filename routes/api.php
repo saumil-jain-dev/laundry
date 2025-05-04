@@ -161,6 +161,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('logout', 'logout');
                 Route::post('add-help-center-message', 'storeHelpCenterMessage');
                 Route::post('add-feedback', 'storeFeedback');
+                Route::post('faq-list', 'getFaqList');
 
                 //Change Password
                 Route::post('change-password','changePassword');
