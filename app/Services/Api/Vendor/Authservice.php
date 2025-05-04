@@ -7,6 +7,7 @@ use App\Http\Resources\Api\Vendor\Auth\LoginRegisterResource;
 use App\Models\BusinessDetail;
 use App\Models\BusinessType;
 use App\Models\Category;
+use App\Models\Faq;
 use App\Models\Feedback;
 use App\Models\HelpCenter;
 use App\Models\NotificationReceiver;
@@ -298,5 +299,12 @@ class AuthService {
         ]);
         $businessDetails = BusinessDetail::where('user_id',Auth::user()->id)->first();
         return $businessDetails;
+    }
+
+    public function getFaqList($request){
+
+        $perPage = $request->input('per_page', 10);
+        $faqList = Faq::orderBy('id','DESC')->paginate($perPage)->withQueryString();
+        return $faqList;
     }
 }

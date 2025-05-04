@@ -12,6 +12,7 @@ use App\Http\Requests\Api\Vendor\UpdateProfileRequest;
 use App\Http\Requests\Api\Vendor\UpdateTimingRequest;
 use App\Http\Resources\Api\Vendor\Auth\LoginRegisterResource;
 use App\Http\Resources\Api\Vendor\Business\BusinessDetailsResource;
+use App\Http\Resources\Api\Vendor\Faq\FaqResource;
 use App\Models\BusinessDetail;
 use Illuminate\Http\Request;
 use App\Services\Api\Vendor\Authservice;
@@ -139,6 +140,22 @@ class VendorController extends Controller
         try{
             $businessDetails = $this->authService->updateBusinessDetails($request);
             return success(new BusinessDetailsResource($businessDetails),trans('messages.update',['attribute'=>'Business details']));
+        } catch (Exception $e) {
+            return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
+        }
+    }
+
+    public function getFaqList(Request $request){
+        try{
+
+            $faqList = $this->authService->getFaqList($request);
+            if($faqList){
+                return success(
+                    pagination(FaqResource::class, $faqList),
+                    trans('messages.list', ['attribute' => 'Faq']),
+                    config('code.SUCCESS_CODE')
+                );
+            }
         } catch (Exception $e) {
             return fail([], $e->getMessage(), config('code.EXCEPTION_ERROR_CODE'));
         }
