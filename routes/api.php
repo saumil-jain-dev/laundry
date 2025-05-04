@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CmsPageController;
 use App\Http\Controllers\Api\Customer\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\Auth\RegisterController;
 use App\Http\Controllers\Api\Customer\Auth\UserController;
@@ -21,6 +22,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::prefix('v1')->group(function () {
+    Route::get('/cms/privacy-policy', [CmsPageController::class, 'privacyPolicy']);
 
     //Customer Routes
     Route::prefix('customer')->group(function(){
